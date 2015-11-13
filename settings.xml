@@ -1,0 +1,35 @@
+<settings>
+
+    <!-- General application settings -->
+    <app_settings>
+        <api_url>https://api.fitbit.com</api_url>
+        <api_version>1</api_version>
+        <client_id>229RYR</client_id>
+        <client_key>7ecfd041ecdb0c889ccfa93a45e05cff</client_key>
+        <callback_uri>https://localhost/</callback_uri>
+
+        <!-- Application secret DO NOT PUBLISH-->
+        <client_secret></client_secret>
+    </app_settings>
+
+    <!-- Auth 2 URI -->
+    <auth2_uri>https://www.fitbit.com/oauth2/authorize</auth2_uri>
+
+    <!-- API resources, expand with new entries -->
+    <api>
+        <user>user</user>
+        <activities>activities</activities>
+        <body>body</body>
+        <date>date</date>
+        <log>log</log>
+        <weight>weight</weight>
+        <heart>heart</heart>
+    </api>
+
+    <!-- Storage types for app data -->
+    <storage>
+        <file>file</file>
+        <db>DB</db>
+    </storage>
+
+</settings>
