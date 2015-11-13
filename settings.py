@@ -7,6 +7,8 @@ class AppSettings:
     def __init__(self, settings_file):
         self.settings = {}
         self.settings_file = settings_file
+        print('Settings file: ' + self.settings_file)
+        print('FILE: ' + str(__file__))
         self.bCached = False
 
     def read_settings(self):
@@ -25,6 +27,8 @@ class AppSettings:
         self.settings['client_secret'] = settings_root.find('client_secret').text
         self.settings['api_version'] = settings_root.find('api_version').text
         self.settings['api_url'] = settings_root.find('api_url').text
+        self.settings['auth2_uri'] = root.find('auth2_uri').text
+        self.settings['storage'] = root.find('storage').text
 
         print('SETTINGS read:')
         print(self.settings.items())

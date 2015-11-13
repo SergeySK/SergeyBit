@@ -9,7 +9,7 @@
         <callback_uri>https://localhost/</callback_uri>
 
         <!-- Application secret DO NOT PUBLISH-->
-        <client_secret></client_secret>
+        <client_secret> </client_secret>
     </app_settings>
 
     <!-- Auth 2 URI -->
@@ -26,10 +26,7 @@
         <heart>heart</heart>
     </api>
 
-    <!-- Storage types for app data -->
-    <storage>
-        <file>file</file>
-        <db>DB</db>
-    </storage>
+    <!-- Storage types for app data (file, DB, etc.) -->
+    <storage>file</storage>
 
 </settings>

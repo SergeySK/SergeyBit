@@ -1,4 +1,5 @@
-from SergeyBit.settings import AppSettings
+import os
+from settings import AppSettings
 
 
 # This is a hack, we're developing console application which can't handle callback URI invocation
@@ -15,5 +16,5 @@ def read_token(client_id, cb_uri, auth_uri):
 
     return input('Code = ')
 
-app_settings = AppSettings('settings.xml').read_settings()
+app_settings = AppSettings(os.path.join(os.path.dirname(__file__), 'settings.xml')).read_settings()
 token = read_token(app_settings['client_id'], 'https://localhost/', 'https://www.fitbit.com/oauth2/authorize')
