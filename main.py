@@ -1,9 +1,9 @@
 import os
 from settings import AppSettings
-
+from oauth2 import OAuth2
 
 # This is a hack, we're developing console application which can't handle callback URI invocation
-def read_token(client_id, cb_uri, auth_uri):
+def read_auth_code(client_id, cb_uri, auth_uri):
     print('Please open this URL in your browser, authorize application and enter code parameter from response')
     print('Example of response in browser address line: '
           'https://localhost/?code=805fed2a6f8fc6d20893f8ab75b01f955daab76e')
@@ -17,4 +17,7 @@ def read_token(client_id, cb_uri, auth_uri):
     return input('Code = ')
 
 app_settings = AppSettings(os.path.join(os.path.dirname(__file__), 'settings.xml')).read_settings()
-token = read_token(app_settings['client_id'], 'https://localhost/', 'https://www.fitbit.com/oauth2/authorize')
+auth_code = read_auth_code(app_settings['client_id'], 'https://localhost/', 'https://www.fitbit.com/oauth2/authorize')
+
+oauth = OAuth2(app_settings)
+oauth.request_token(auth_code)
