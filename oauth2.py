@@ -30,9 +30,10 @@ class OAuth2:
                 'redirect_uri': self.app_settings['callback_uri'],
                 'code': auth_code}
 
-        req = requests.post(self.app_settings['auth2_uri'], data=data, headers=headers)
+        print(self.app_settings['auth2_tokenreq_uri'])
+        req = requests.post(self.app_settings['auth2_tokenreq_uri'], data=data, headers=headers)
         print(req.status_code)
-        print(req.text)
+        print(req.json())
 
         self.bAvailable = True
         return self.bAvailable

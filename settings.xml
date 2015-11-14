@@ -9,11 +9,12 @@
         <callback_uri>https://localhost/</callback_uri>
 
         <!-- Application secret DO NOT PUBLISH-->
-        <client_secret> </client_secret>
+        <client_secret></client_secret>
     </app_settings>
 
     <!-- Auth 2 URI -->
-    <auth2_uri>https://www.fitbit.com/oauth2/authorize</auth2_uri>
+    <auth2_authreq_uri>https://www.fitbit.com/oauth2/authorize</auth2_authreq_uri>
+    <auth2_tokenreq_uri>https://api.fitbit.com/oauth2/token</auth2_tokenreq_uri>
 
     <!-- API resources, expand with new entries -->
     <api>
