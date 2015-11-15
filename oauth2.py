@@ -16,11 +16,13 @@ class OAuth2:
         self.bAvailable = False
 
     def __make_magic_str(self):
-        return base64.b64encode(bytearray(self.app_settings['client_id'] + ':' + self.app_settings['client_secret'], 'utf-8'))
+        magic_str = base64.b64encode(bytearray(self.app_settings['client_id'] + ':' + self.app_settings['client_secret'], 'utf-8'))
+        return str(magic_str.decode())
 
     def request_token(self, auth_code):
 
-        magic_str = str(self.__make_magic_str())
+        magic_str = self.__make_magic_str()
+        print(magic_str)
 
         headers = {'Authorization': 'Basic ' + magic_str,
                    'Content-Type': 'application/x-www-form-urlencoded'}
@@ -31,6 +33,7 @@ class OAuth2:
                 'code': auth_code}
 
         print(self.app_settings['auth2_tokenreq_uri'])
+
         req = requests.post(self.app_settings['auth2_tokenreq_uri'], data=data, headers=headers)
         print(req.status_code)
         print(req.json())
