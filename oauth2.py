@@ -1,3 +1,5 @@
+__author__ = 'SergeyKozlov'
+
 from settings import AppSettings
 import requests
 import base64
@@ -7,6 +9,7 @@ class OAuth2:
 
     def __init__(self, app_settings):
         self.app_settings = app_settings
+        self.app_auth_data = dict()
 
     def __make_magic_str(self):
         magic_str = base64.b64encode(bytearray(self.app_settings['client_id'] + ':' + self.app_settings['client_secret'], 'utf-8'))
@@ -32,4 +35,8 @@ class OAuth2:
             print('Token request failed with error code ' + str(req.status_code))
             return None
 
-        return req.json()
+        self.app_auth_data = req.json()
+        return self.app_auth_data
+
+    def get_auth_data(self):
+        return self.app_auth_data

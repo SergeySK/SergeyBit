@@ -1,3 +1,5 @@
+__author__ = 'SergeyKozlov'
+
 import xml.etree.ElementTree as Et
 
 
