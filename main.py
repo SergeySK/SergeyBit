@@ -20,4 +20,11 @@ app_settings = AppSettings(os.path.join(os.path.dirname(__file__), 'settings.xml
 auth_code = read_auth_code(app_settings['client_id'], 'https://localhost/', 'https://www.fitbit.com/oauth2/authorize')
 
 oauth = OAuth2(app_settings)
-oauth.request_token(auth_code)
+
+auth_resp = oauth.request_token(auth_code)
+if auth_resp:
+    print('Tokens received')
+    print(auth_resp)
+else:
+    print('Token retrieval failure')
+    exit(-1)
