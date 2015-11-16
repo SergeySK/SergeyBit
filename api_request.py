@@ -1,5 +1,6 @@
 __author__ = 'SergeyKozlov'
 
+import requests
 
 def get_api_path(api_url, api_version):
     return api_url + '/' + api_version
@@ -39,7 +40,6 @@ class ApiRequest:
     def __init__(self, settings, auth_data):
         self.settings = settings
         self.auth_data = auth_data
-        self.api_call = ''
 
     # URI/user/user-id/<group>/<data_type>/<resource>/<date>/<req_date>/<>.json
     # URI: API url + API version: https://api.fitbit.com/1/
@@ -60,5 +60,33 @@ class ApiRequest:
         print('API CALL: ' + api_call)
         return api_call
 
-    def send_request(self, request):
-        print('CALLING API: ' + self.api_call)
+    def send_request(self, request, request_method):
+        print('CALLING API: ' + request_method + ': ' + request)
+        req = None
+
+        if request_method not in ['GET', 'get', 'POST', 'post', 'DELETE', 'delete', 'PUT', 'put']:
+            print('Wrong request method: ' + request_method)
+            return None
+
+        headers = {'Authorization': 'Bearer ' + self.auth_data['access_token']}
+
+        if request_method in ['GET', 'get']:
+            print('Executing GET request for ' + request)
+            req = requests.get(request, headers=headers)
+            if req.status_code != requests.codes.ok:
+                print('Token request failed with error code ' + str(req.status_code))
+                return None
+            else:
+                return req.json()
+        else:
+            if request_method in ['POST', 'post']:
+                print('POST not supported at this time')
+                return None
+            else:
+                if request_method in ['DELETE', 'delete']:
+                    print('DELETE not supported at this time')
+                    return None
+                else:
+                    if request_method in ['PUT', 'put']:
+                        print('PUT not supported at this time')
+                        return None

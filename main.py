@@ -38,11 +38,17 @@ api_req = ApiRequest(app_settings, auth_data)
 # GET https://api.fitbit.com/1/user/[user-id]/sleep/date/[date].json
 sleep_req = api_req.prepare_request(data_type='sleep', start_date='2015-11-11')
 print(sleep_req)
+sleep_data = api_req.send_request(sleep_req, 'GET')
+print(sleep_data)
 
 # GET https://api.fitbit.com/1/user/[user-id]/body/log/weight/[base-date]/[end-date].json
 weight_req = api_req.prepare_request(data_type='weight', start_date='2015-11-11', end_date='2015-11-12', group='body/log')
 print(weight_req)
+weight_data = api_req.send_request(weight_req, 'GET')
+print(weight_data)
 
 # GET https://api.fitbit.com/1/user/[user-id]/[resource-path]/date/[date]/[period].json
 sleep_adv_req = api_req.prepare_request(data_type='sleep', start_date='2015-11-11', period='1d', resource='timeInBed')
 print(sleep_adv_req)
+sleep_adv_data = api_req.send_request(sleep_adv_req, 'GET')
+print(sleep_adv_data)
