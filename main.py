@@ -20,6 +20,22 @@ def read_auth_code(client_id, cb_uri, auth_uri):
 
     return input('Code = ')
 
+
+def get_auth_token(cur_app_settings, cur_user):
+    auth_code = read_auth_code(cur_app_settings['client_id'], 'https://localhost/', 'https://www.fitbit.com/oauth2/authorize')
+    oauth = OAuth2(app_settings)
+    auth_data = oauth.request_token(auth_code)
+
+    if auth_data:
+        print('Tokens received')
+        print(auth_data)
+        user_mgr.renew_token(cur_user, auth_data)
+        #TODO: store authentication data in persistent storage here
+        return auth_data
+    else:
+        print('Token retrieval failure')
+        return None
+
 app_settings = AppSettings(os.path.join(os.path.dirname(__file__), 'settings.xml')).read_settings()
 
 # Get token for the user here:
@@ -33,24 +49,20 @@ user_mgr = UserMgr(app_settings)
 if user_mgr.check_user(user):
     if user_mgr.check_password(user):
         auth_data = user_mgr.get_token(user)
+        # If no token available
+        if not auth_data:
+            get_auth_token(app_settings, user)
     else:
         print('invalid credentials')
         exit(-1)
 else:
     user_mgr.add_user(user)
-    auth_code = read_auth_code(app_settings['client_id'], 'https://localhost/', 'https://www.fitbit.com/oauth2/authorize')
-    oauth = OAuth2(app_settings)
-    auth_data = oauth.request_token(auth_code)
-    if auth_data:
-        print('Tokens received')
-        print(auth_data)
-        user_mgr.renew_token(user, auth_data)
-        #TODO: store authentication data in persistent storage here
-    else:
+    auth_data = get_auth_token(app_settings, user)
+    if not auth_data:
         print('Token retrieval failure')
         exit(-1)
 
-api_req = ApiRequest(app_settings, auth_data)
+api_req = ApiRequest(app_settings, user_mgr.get_token(user))
 
 # Testing:
 # GET https://api.fitbit.com/1/user/[user-id]/sleep/date/[date].json

@@ -32,7 +32,7 @@ class UserMgr:
 
     def add_user(self, user):
         fl = open(self.db_file, 'a')
-        fl.write(user.id + ':' + user.hash_password)
+        fl.write(user.id + ':' + user.hash_password + '\n')
         fl.close()
 
     def delete_user(self, user):
