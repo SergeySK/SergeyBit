@@ -12,6 +12,7 @@ class OAuth2:
         self.app_auth_data = dict()
 
     def __make_magic_str(self):
+        """ Magic string which is required by FitBit API """
         magic_str = base64.b64encode(bytearray(self.app_settings['client_id'] + ':' + self.app_settings['client_secret'], 'utf-8'))
         return str(magic_str.decode())
 

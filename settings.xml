@@ -10,6 +10,7 @@
 
         <!-- Application secret DO NOT PUBLISH-->
         <client_secret></client_secret>
+        <user_db_file>user_db.txt</user_db_file>
     </app_settings>
 
     <!-- Auth 2 URI -->

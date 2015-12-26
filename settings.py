@@ -30,6 +30,7 @@ class AppSettings:
         self.settings['api_version'] = settings_root.find('api_version').text
         self.settings['api_url'] = settings_root.find('api_url').text
         self.settings['callback_uri'] = settings_root.find('callback_uri').text
+        self.settings['user_db_file'] = settings_root.find('user_db_file').text
         self.settings['auth2_authreq_uri'] = root.find('auth2_authreq_uri').text
         self.settings['auth2_tokenreq_uri'] = root.find('auth2_tokenreq_uri').text
         self.settings['storage'] = root.find('storage').text
