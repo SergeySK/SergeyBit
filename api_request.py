@@ -74,7 +74,8 @@ class ApiRequest:
             print('Executing GET request for ' + request)
             req = requests.get(request, headers=headers)
             if req.status_code != requests.codes.ok:
-                print('Token request failed with error code ' + str(req.status_code))
+                print('Request failed with error code ' + str(req.status_code))
+                raise ValueError(req.status_code)
                 return None
             else:
                 return req.json()

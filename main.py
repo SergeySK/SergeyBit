@@ -36,6 +36,28 @@ def get_auth_token(cur_app_settings, cur_user):
         print('Token retrieval failure')
         return None
 
+def testing(app_settings, user_mgr, user):
+    api_req = ApiRequest(app_settings, user_mgr.get_token(user))
+    # Testing:
+    # GET https://api.fitbit.com/1/user/[user-id]/sleep/date/[date].json
+    sleep_req = api_req.prepare_request(data_type='sleep', start_date='2015-11-11')
+    print(sleep_req)
+    sleep_data = api_req.send_request(sleep_req, 'GET')
+    print(sleep_data)
+
+    # GET https://api.fitbit.com/1/user/[user-id]/body/log/weight/[base-date]/[end-date].json
+    weight_req = api_req.prepare_request(data_type='weight', start_date='2015-11-11', end_date='2015-11-12', group='body/log')
+    print(weight_req)
+    weight_data = api_req.send_request(weight_req, 'GET')
+    print(weight_data)
+
+    # GET https://api.fitbit.com/1/user/[user-id]/[resource-path]/date/[date]/[period].json
+    sleep_adv_req = api_req.prepare_request(data_type='sleep', start_date='2015-11-11', period='1d', resource='timeInBed')
+    print(sleep_adv_req)
+    sleep_adv_data = api_req.send_request(sleep_adv_req, 'GET')
+    print(sleep_adv_data)
+
+
 app_settings = AppSettings(os.path.join(os.path.dirname(__file__), 'settings.xml')).read_settings()
 
 # Get token for the user here:
@@ -62,23 +84,13 @@ else:
         print('Token retrieval failure')
         exit(-1)
 
-api_req = ApiRequest(app_settings, user_mgr.get_token(user))
-
-# Testing:
-# GET https://api.fitbit.com/1/user/[user-id]/sleep/date/[date].json
-sleep_req = api_req.prepare_request(data_type='sleep', start_date='2015-11-11')
-print(sleep_req)
-sleep_data = api_req.send_request(sleep_req, 'GET')
-print(sleep_data)
-
-# GET https://api.fitbit.com/1/user/[user-id]/body/log/weight/[base-date]/[end-date].json
-weight_req = api_req.prepare_request(data_type='weight', start_date='2015-11-11', end_date='2015-11-12', group='body/log')
-print(weight_req)
-weight_data = api_req.send_request(weight_req, 'GET')
-print(weight_data)
-
-# GET https://api.fitbit.com/1/user/[user-id]/[resource-path]/date/[date]/[period].json
-sleep_adv_req = api_req.prepare_request(data_type='sleep', start_date='2015-11-11', period='1d', resource='timeInBed')
-print(sleep_adv_req)
-sleep_adv_data = api_req.send_request(sleep_adv_req, 'GET')
-print(sleep_adv_data)
+try:
+    testing(app_settings, user_mgr, user)
+except ValueError as err:
+    if err.args[0] == 401:
+        print('Your authorization is not valid, need to re-validate!!!')
+        get_auth_token(app_settings, user)
+        testing(app_settings, user_mgr, user)
+    else:
+        print('Unrecoverable error, terminating the app')
+        exit(-1)
